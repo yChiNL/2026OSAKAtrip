@@ -77,10 +77,9 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-f
 .spot.book{border:2px solid var(--book);background:linear-gradient(135deg,#fff,#ffeef1)}
 .spot.shut{border:2px solid #c44;background:#fff0ee}
 .spot .hr.x{background:#ffd9d3;color:#b22}
-.spot.eat{border-left:5px solid var(--teal)}
+.empty{font-size:13px;color:var(--soft);background:#fff;border:2px dashed var(--line);border-radius:18px;padding:14px 15px;margin-bottom:10px;text-align:center}
 .tag{display:inline-flex;align-items:center;justify-content:center;font-family:"Baloo 2";font-weight:700;font-size:11px;color:#fff;background:var(--blue);border-radius:20px;padding:3px 9px;letter-spacing:.04em;line-height:1}
 .tag.b{background:var(--book)}
-.tag.e{background:var(--teal)}
 .map{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;background:#eaf4ff;border-radius:20px;padding:3px 11px}
 
 .rest{background:#fff;border-radius:18px;padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh);display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -105,76 +104,25 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-f
 <div class="wrap" id="days"></div>
 <div class="foot">いってきます！一路順風 ✈️</div>
 <script>
-const D=[
- {d:"DAY 1 · 07/14 一",t:"抵達大阪",a:"OSAKA",c:"",seg:[
-   {i:"✈️",t:"抵達・住宿",x:[{n:"CX564 香港→關西",e:"11:05–14:50",m:"托運 23KG · 隨身 7KG",tag:"航班",nomap:1},{n:"飯店 Check-in",e:"蒙特利",ad:"大阪蒙特利格拉斯梅爾酒店",m:"16:00 才能入住",q:"Hotel Monterey Grasmere Osaka"}]},
-   {i:"🌙",t:"晚上",x:[
-     {n:"和和鍋 道頓堀店",eat:1,hr:"週一 12:00–24:00",ad:"中央区道頓堀1-6-15 ドウトン大樓8F",q:"和和鍋 道頓堀店"},
-     {n:"道頓堀",hr:"全天 · 店家多至深夜",ad:"中央区道頓堀1丁目 戎橋一帶",q:"道頓堀 戎橋"},
-     {n:"心齋橋",hr:"約11:00–20:00",ad:"中央区心斎橋筋1-2丁目",q:"心斎橋筋商店街"}]}]},
- {d:"DAY 2 · 07/15 二",t:"市場美食",a:"OSAKA",c:"",seg:[
-   {i:"🍣",t:"早上",x:[
-     {n:"木津市場",hr:"週二 約6:00–13:00",ad:"浪速区敷津東2-2-8",q:"木津市場 大阪"},
-     {n:"黒門市場",hr:"週二 約9:00–17:00",ad:"中央区日本橋2-4-1",q:"黒門市場"}]},
-   {i:"🍜",t:"午餐",x:[{n:"Akari Soba",eat:1,hr:"12:00–24:00",ad:"中央区道頓堀1-1-9（店名待確認）",q:"あかり 蕎麦 道頓堀"}]},
-   {i:"⛩️",t:"下午",x:[
-     {n:"勝尾寺",hr:"週二 8:00–17:00",ad:"箕面市勝尾寺",q:"勝尾寺"},
-     {n:"梅田",hr:"全天",ad:"北区梅田 JR大阪駅周邊",q:"梅田 大阪駅"}]},
-   {i:"🌙",t:"晚上",x:[
-     {n:"千房 大阪燒",eat:1,hr:"11:00–23:00",ad:"中央区道頓堀1-5-5",q:"千房 道頓堀ビル店"},
-     {n:"阿倍野夜景 Harukas 300",hr:"9:00–22:00 售票至21:30",ad:"阿倍野区阿倍野筋1-1-43",q:"あべのハルカス展望台"}]}]},
- {d:"DAY 3 · 07/16 三",t:"環球影城",a:"USJ",c:"teal",seg:[
-   {i:"🎢",t:"整天",x:[{n:"日本環球影城 USJ",e:"Universal Studios",hr:"週三 9:00–21:00",ad:"此花区桜島2-1-33",q:"ユニバーサル・スタジオ・ジャパン"}]}]},
- {d:"DAY 4 · 07/17 四",t:"神戶 + 大阪",a:"KOBE",c:"blue",seg:[
-   {i:"🌅",t:"上午",x:[
-     {n:"北野異人館街",hr:"9:00–17:00 入館至16:45",ad:"神戸市中央区北野町3-13-3",q:"風見鶏の館 北野異人館"},
-     {n:"神戶港 Harborland",hr:"商店10:00–20:00",ad:"神戸市中央区東川崎町1-7-2",q:"神戸ハーバーランド umie"}]},
-   {i:"🏎️",t:"下午",x:[
-     {n:"大阪卡丁車",hr:"12:00–19:00",ad:"西区南堀江1-14-19",m:"需國際駕照",book:1,q:"ストリートカート大阪"},
-     {n:"通天閣",hr:"週四 10:00–20:00 末入19:30",ad:"浪速区恵美須東1-18-6",q:"通天閣"},
-     {n:"大阪城",hr:"週四 9:00–18:00 末入17:30",ad:"中央区大阪城1-1",q:"大阪城天守閣"}]}]},
- {d:"DAY 5 · 07/18 五",t:"京都古都",a:"KYOTO",c:"blue",seg:[
-   {i:"⛩️",t:"上午",x:[
-     {n:"伏見稻荷大社",hr:"24h · 社務所8:30–16:30",ad:"伏見区深草薮之内町68",q:"伏見稲荷大社"},
-     {n:"清水寺",hr:"6:00–18:30（7月延長）",ad:"東山区清水1-294",q:"清水寺"},
-     {n:"二三年坂",hr:"街道全天",ad:"東山区清水 二/三年坂",q:"産寧坂 京都"},
-     {n:"花見小路",hr:"街道全天",ad:"東山区祇園町南側",q:"花見小路通"}]},
-   {i:"🍱",t:"午餐",x:[{n:"清水順正 OKABE家",eat:1,hr:"10:30–17:00 LO",ad:"東山区清水2丁目239",q:"清水順正おかべ家"}]},
-   {i:"🛍️",t:"下午",x:[
-     {n:"LE LABO 京都町家",hr:"10:00–19:00",ad:"中京区木屋町通四条上ル",q:"LE LABO 京都 町家"},
-     {n:"星巴克 二寧坂Yasaka店",hr:"8:00–20:00",ad:"東山区高台寺南門通 桝屋町349",q:"スターバックス 京都二寧坂ヤサカ茶屋店"}]},
-   {i:"🌙",t:"晚上",x:[
-     {n:"鴨川",hr:"24h",ad:"京都市沿岸河川敷",q:"鴨川 京都"},
-     {n:"Macho Bar 三条店",eat:1,hr:"19:00–24:00",ad:"中京区山崎町258-26",q:"MACHO BAR 三条",book:1}]}]},
- {d:"DAY 6 · 07/19 六",t:"大阪 + 奈良",a:"NARA",c:"blue",seg:[
-   {i:"🐬",t:"上午",x:[
-     {n:"海遊館",hr:"週六 8:30–20:30",ad:"港区海岸通1-1-10",book:1,q:"海遊館"},
-     {n:"杯麵博物館 池田",hr:"週六 9:30–16:00",ad:"池田市満寿美町8-25",q:"カップヌードルミュージアム 大阪池田",book:1},
-     {n:"大阪生活今昔館",hr:"週六 10:00–17:00",ad:"北区天神橋6-4-20 8F",q:"大阪くらしの今昔館"}]},
-   {i:"🦌",t:"下午",x:[
-     {n:"東大寺 · 大仏殿",hr:"7:30–17:30（4–10月）",ad:"奈良市雑司町406-1",q:"東大寺 大仏殿"},
-     {n:"奈良公園",hr:"24h 自由入園",ad:"奈良市登大路町",q:"奈良公園"},
-     {n:"東向商店街",hr:"約10:00–20:00",ad:"奈良市東向中町",q:"東向商店街 奈良"},
-     {n:"生駒山上遊樂園",hr:"10:00–17:00 暑夏延長",ad:"生駒市菜畑2312-1",q:"生駒山上遊園地"}]}]},
- {d:"DAY 7 · 07/20 日",t:"歸途",a:"OSAKA",c:"",seg:[
-   {i:"🛍️",t:"上午",x:[{n:"臨空城 Outlet",hr:"10:00–20:00",ad:"泉佐野市りんくう往来南3-28",m:"退房 11:00",q:"りんくうプレミアムアウトレット"}]},
-   {i:"✈️",t:"午後",x:[{n:"CX565 關西→香港",e:"16:15–18:15",tag:"航班"}]}]}
-];
-const rests=[["和牛壽喜燒","和和鍋 道頓堀店","週一 12:00–24:00"],["蕎麥","Akari Soba","12:00–24:00"],["大阪燒","千房","11:00–23:00"],["湯豆腐","清水順正 OKABE家","10:30–17:00"],["酒吧","Macho Bar 三条","19:00–24:00"]];
 const tabs=document.getElementById('tabs'),days=document.getElementById('days');
+fetch('data.json').then(r=>r.json()).then(render).catch(e=>{days.innerHTML='<div class="empty">資料載入失敗，請用本機伺服器開啟（非 file://）</div>';console.error(e)});
+function render({days:D,rests,info}){
 D.forEach((day,i)=>{
-  const b=document.createElement('button');b.className='tab'+(i==0?' on':'');b.innerHTML=`<b>DAY ${i+1}</b><span>${day.a}</span>`;b.onclick=()=>sel(i);tabs.append(b);
-  let h=`<section class="day${i==0?' on':''}"><div class="dh ${day.c}"><div class="d">${day.d}</div><h2>${day.t}</h2><div class="area">${day.a}</div></div>`;
-  day.seg.forEach(s=>{h+=`<div class="seg"><div class="seg-h"><span class="ic">${s.i}</span><span class="t">${s.t}</span><span class="ln"></span></div>`;
-    s.x.forEach(p=>{h+=`<div class="spot${p.book?' book':''}${p.shut?' shut':''}${p.eat?' eat':''}"><div class="nm">${p.n}${p.tag?`<span class="tag">${p.tag}</span>`:''}${p.book?'<span class="tag b">需預訂</span>':''}${p.shut?'<span class="tag b">當天公休</span>':''}${p.eat?'<span class="tag e">美食</span>':''}${p.e?`<span class="en">${p.e}</span>`:''}</div>${p.hr?`<span class="hr${p.shut?' x':''}">🕒 ${p.hr}</span>`:''}${p.ad?`<div class="ad">📌 ${p.ad}</div>`:''}${p.m?`<div class="meta">${p.m}</div>`:''}${p.nomap?'':`<a class="map" target="_blank" href="https://maps.google.com/?q=${encodeURIComponent(p.q||p.n+' 日本')}">📍 地圖</a>`}</div>`});
+  const b=document.createElement('button');b.className='tab'+(i==0?' on':'');b.innerHTML=`<b>DAY ${i+1}</b><span>${day.area}</span>`;b.onclick=()=>sel(i);tabs.append(b);
+  let h=`<section class="day${i==0?' on':''}"><div class="dh ${day.color}"><div class="d">${day.date}</div><h2>${day.title}</h2><div class="area">${day.area}</div></div>`;
+  day.slots.forEach(s=>{h+=`<div class="seg"><div class="seg-h"><span class="ic">${s.icon}</span><span class="t">${s.title}</span><span class="ln"></span></div>`;
+    if(!s.spots.length){h+=`<div class="empty">目前未安排</div>`}
+    s.spots.forEach(p=>{h+=`<div class="spot${p.book?' book':''}${p.shut?' shut':''}"><div class="nm">${p.name}${p.tag?`<span class="tag">${p.tag}</span>`:''}${p.book?'<span class="tag b">需預訂</span>':''}${p.shut?'<span class="tag b">當天公休</span>':''}${p.sub?`<span class="en">${p.sub}</span>`:''}</div>${p.hours?`<span class="hr${p.shut?' x':''}">🕒 ${p.hours}</span>`:''}${p.addr?`<div class="ad">📌 ${p.addr}</div>`:''}${p.note?`<div class="meta">${p.note}</div>`:''}${p.nomap?'':`<a class="map" target="_blank" href="https://maps.google.com/?q=${encodeURIComponent(p.query||p.name+' 日本')}">📍 地圖</a>`}</div>`});
     h+=`</div>`});
   h+=`</section>`;days.insertAdjacentHTML('beforeend',h);
 });
-const tb=document.createElement('button');tb.className='tab';tb.innerHTML='<b>🍴</b><span>美食/資訊</span>';tb.onclick=()=>sel(7);tabs.append(tb);
+const tb=document.createElement('button');tb.className='tab';tb.innerHTML='<b>🍴</b><span>美食/資訊</span>';tb.onclick=()=>sel(D.length);tabs.append(tb);
 let r=`<section class="day"><div class="dh teal"><div class="d">EAT & INFO</div><h2>美食 · 資訊</h2><div class="area">餐廳 / 航班 / 飯店</div></div><div class="seg"><div class="seg-h"><span class="ic">🍴</span><span class="t">餐廳口袋名單</span><span class="ln"></span></div>`;
 rests.forEach(x=>r+=`<div class="rest"><div><span class="k">${x[0]}</span><div class="n">${x[1]}</div></div><div class="h">${x[2]}</div></div>`);
-r+=`</div><div class="seg"><div class="seg-h"><span class="ic">ℹ️</span><span class="t">重要資訊</span><span class="ln"></span></div><div class="info"><h3>✈️ 航班</h3><p><b>去程</b> CX564　11:05–14:50</p><p><b>回程</b> CX565　16:15–18:15</p><p>托運 23KG · 隨身 7KG</p></div><div class="info"><h3>🏨 飯店</h3><p>大阪蒙特利格拉斯梅爾酒店</p><p><b>入住</b> 16:00　·　<b>退房</b> 11:00</p></div><div class="info"><h3>🎟️ 需預訂</h3><p>USJ 環球影城 · 卡丁車 · 海遊館</p></div><div class="info"><h3>⚠️ 7/15 週二公休</h3><p>杯麵博物館池田 · 大阪生活今昔館 當天閉館,建議調整</p></div></div></section>`;
-days.insertAdjacentHTML('beforeend',r);
+r+=`</div><div class="seg"><div class="seg-h"><span class="ic">ℹ️</span><span class="t">重要資訊</span><span class="ln"></span></div>`;
+info.forEach(o=>r+=`<div class="info"><h3>${o.h}</h3>${o.p.map(t=>`<p>${t}</p>`).join('')}</div>`);
+r+=`</section>`;days.insertAdjacentHTML('beforeend',r);
+}
 function sel(i){document.querySelectorAll('.tab').forEach((t,n)=>t.classList.toggle('on',n==i));document.querySelectorAll('.day').forEach((d,n)=>d.classList.toggle('on',n==i));window.scrollTo({top:0,behavior:'smooth'})}
 </script>
 </body>
