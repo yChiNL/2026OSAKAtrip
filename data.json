@@ -2,7 +2,7 @@
   "days": [
     {"date":"DAY 1 · 07/14 一","title":"抵達大阪","area":"OSAKA","color":"","slots":[
       {"icon":"✈️","title":"抵達・住宿","spots":[{"name":"CX564 香港→關西","sub":"11:05–14:50","note":"托運 23KG · 隨身 7KG","tag":"航班","nomap":1},{"name":"飯店 Check-in","sub":"蒙特利","addr":"大阪蒙特利格拉斯梅爾酒店","note":"16:00 才能入住","query":"Hotel Monterey Grasmere Osaka"}]},
-      {"icon":"🍴","title":"晚餐","spots":[{"name":"和和鍋 道頓堀店","hours":"週一 12:00–24:00","addr":"中央区道頓堀1-6-15 ドウトン大樓8F","query":"和和鍋 道頓堀店","book":1}]},
+      {"icon":"🍴","title":"晚餐","spots":[{"name":"和和鍋 道頓堀店","hours":"週一 12:00–24:00","addr":"中央区道頓堀1-6-15 ドウトン大樓8F","query":"和和鍋 道頓堀店","booked":"18:30","note":"訂金 $581"}]},
       {"icon":"🌙","title":"晚上","spots":[
         {"name":"道頓堀","hours":"全天 · 店家多至深夜","addr":"中央区道頓堀1丁目 戎橋一帶","query":"道頓堀 戎橋"},
         {"name":"心齋橋","hours":"約11:00–20:00","addr":"中央区心斎橋筋1-2丁目","query":"心斎橋筋商店街"}]}]},
@@ -10,15 +10,15 @@
       {"icon":"🍣","title":"早上","spots":[
         {"name":"木津市場","hours":"週二 約6:00–13:00","addr":"浪速区敷津東2-2-8","query":"木津市場 大阪"},
         {"name":"黒門市場","hours":"週二 約9:00–17:00","addr":"中央区日本橋2-4-1","query":"黒門市場"}]},
-      {"icon":"🍜","title":"午餐","spots":[{"name":"Akari Soba","hours":"12:00–24:00","addr":"中央区道頓堀1-1-9","query":"あかり 蕎麦 道頓堀","book":1}]},
+      {"icon":"🍜","title":"午餐","spots":[{"name":"Akari Soba","hours":"12:00–24:00","addr":"中央区道頓堀1-1-9","query":"あかり 蕎麦 道頓堀","walkin":1,"note":"現場排隊"}]},
       {"icon":"⛩️","title":"下午","spots":[
         {"name":"勝尾寺","hours":"週二 8:00–17:00","addr":"箕面市勝尾寺","query":"勝尾寺"},
         {"name":"梅田","hours":"全天","addr":"北区梅田 JR大阪駅周邊","query":"梅田 大阪駅"}]},
-      {"icon":"🍴","title":"晚餐","spots":[{"name":"千房 大阪燒","hours":"11:00–23:00","addr":"中央区道頓堀1-5-5","query":"千房 道頓堀ビル店","book":1}]},
+      {"icon":"🍴","title":"晚餐","spots":[{"name":"千房 大阪燒","hours":"11:00–23:00","addr":"中央区道頓堀1-5-5","query":"千房 道頓堀ビル店","walkin":1,"note":"現場排隊"}]},
       {"icon":"🌙","title":"晚上","spots":[
-        {"name":"阿倍野夜景 Harukas 300","hours":"9:00–22:00 售票至21:30","addr":"阿倍野区阿倍野筋1-1-43","query":"あべのハルカス展望台"}]}]},
+        {"name":"阿倍野夜景 Harukas 300","hours":"9:00–22:00 售票至21:30","addr":"阿倍野区阿倍野筋1-1-43","query":"あべのハルカス展望台","onsite":1}]}]},
     {"date":"DAY 3 · 07/16 三","title":"環球影城","area":"USJ","color":"teal","slots":[
-      {"icon":"🎢","title":"整天","spots":[{"name":"日本環球影城 USJ","sub":"Universal Studios","hours":"週三 9:00–21:00","addr":"此花区桜島2-1-33","query":"ユニバーサル・スタジオ・ジャパン"}]},
+      {"icon":"🎢","title":"整天","spots":[{"name":"日本環球影城 USJ","sub":"Universal Studios","hours":"週三 9:00–21:00","addr":"此花区桜島2-1-33","query":"ユニバーサル・スタジオ・ジャパン","booked":1}]},
       {"icon":"🍴","title":"晚餐","spots":[]}]},
     {"date":"DAY 4 · 07/17 四","title":"神戶 + 大阪","area":"KOBE","color":"blue","slots":[
       {"icon":"🌅","title":"上午","spots":[
@@ -43,11 +43,11 @@
       {"icon":"🍴","title":"晚餐","spots":[]},
       {"icon":"🌙","title":"晚上","spots":[
         {"name":"鴨川","hours":"24h","addr":"京都市沿岸河川敷","query":"鴨川 京都"},
-        {"name":"Macho Bar 三条店","hours":"19:00–24:00","addr":"中京区山崎町258-26","query":"MACHO BAR 三条","book":1}]}]},
+        {"name":"Macho Bar 三条店","hours":"19:00–24:00","addr":"中京区山崎町258-26","query":"MACHO BAR 三条","booked":"20:45"}]}]},
     {"date":"DAY 6 · 07/19 六","title":"大阪 + 奈良","area":"NARA","color":"blue","slots":[
       {"icon":"🐬","title":"上午","spots":[
-        {"name":"海遊館","hours":"週六 8:30–20:30","addr":"港区海岸通1-1-10","book":1,"query":"海遊館"},
-        {"name":"杯麵博物館 池田","hours":"週六 9:30–16:00","addr":"池田市満寿美町8-25","query":"カップヌードルミュージアム 大阪池田","book":1},
+        {"name":"海遊館","hours":"週六 8:30–20:30","addr":"港区海岸通1-1-10","onsite":1,"query":"海遊館"},
+        {"name":"杯麵博物館 池田","hours":"週六 9:30–16:00","addr":"池田市満寿美町8-25","query":"カップヌードルミュージアム 大阪池田","onsite":1},
         {"name":"大阪生活今昔館","hours":"週六 10:00–17:00","addr":"北区天神橋6-4-20 8F","query":"大阪くらしの今昔館"}]},
       {"icon":"🍱","title":"午餐","spots":[]},
       {"icon":"🦌","title":"下午","spots":[

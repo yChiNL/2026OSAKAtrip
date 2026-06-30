@@ -14,7 +14,7 @@
 <style>
 :root{
   --orange:#ff8a3d; --orange-d:#f26b1f; --blue:#2e8bdb; --blue-d:#1f6bb0;
-  --teal:#27c1b6; --pink:#ff6f91; --yellow:#ffc83d; --green:#3ec46d;
+  --teal:#27c1b6; --pink:#ff6f91; --yellow:#ffc83d; --green:#3ec46d; --purple:#9b6dff;
   --ink:#2b2433; --soft:#8a8194; --bg:#fff7ee; --card:#ffffff;
   --book:#ff5470; --line:#ffe3cd;
   --sh:0 4px 0 rgba(0,0,0,.06),0 10px 24px rgba(255,138,61,.14);
@@ -75,11 +75,17 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-f
 .spot .hr{display:inline-block;font-size:12px;color:var(--blue-d);background:#eaf4ff;border-radius:14px;padding:2px 11px;margin-top:5px;font-weight:700;text-align:center}
 .spot .ad{font-size:12px;color:var(--soft);margin-top:4px}
 .spot.book{border:2px solid var(--book);background:linear-gradient(135deg,#fff,#ffeef1)}
+.spot.ok{border:2px solid var(--green);background:linear-gradient(135deg,#fff,#eafaef)}
+.spot.walk{border:2px solid var(--orange);background:linear-gradient(135deg,#fff,#fff3e6)}
+.spot.buy{border:2px solid var(--purple);background:linear-gradient(135deg,#fff,#f3edff)}
 .spot.shut{border:2px solid #c44;background:#fff0ee}
 .spot .hr.x{background:#ffd9d3;color:#b22}
 .empty{font-size:13px;color:var(--soft);background:#fff;border:2px dashed var(--line);border-radius:18px;padding:14px 15px;margin-bottom:10px;text-align:center}
 .tag{display:inline-flex;align-items:center;justify-content:center;font-family:"Baloo 2";font-weight:700;font-size:11px;color:#fff;background:var(--blue);border-radius:20px;padding:3px 9px;letter-spacing:.04em;line-height:1}
 .tag.b{background:var(--book)}
+.tag.g{background:var(--green)}
+.tag.o{background:var(--orange)}
+.tag.p{background:var(--purple)}
 .map{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;background:#eaf4ff;border-radius:20px;padding:3px 11px}
 
 .rest{background:#fff;border-radius:18px;padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh);display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -112,7 +118,7 @@ D.forEach((day,i)=>{
   let h=`<section class="day${i==0?' on':''}"><div class="dh ${day.color}"><div class="d">${day.date}</div><h2>${day.title}</h2><div class="area">${day.area}</div></div>`;
   day.slots.forEach(s=>{h+=`<div class="seg"><div class="seg-h"><span class="ic">${s.icon}</span><span class="t">${s.title}</span><span class="ln"></span></div>`;
     if(!s.spots.length){h+=`<div class="empty">目前未安排</div>`}
-    s.spots.forEach(p=>{h+=`<div class="spot${p.book?' book':''}${p.shut?' shut':''}"><div class="nm">${p.name}${p.tag?`<span class="tag">${p.tag}</span>`:''}${p.book?'<span class="tag b">需預訂</span>':''}${p.shut?'<span class="tag b">當天公休</span>':''}${p.sub?`<span class="en">${p.sub}</span>`:''}</div>${p.hours?`<span class="hr${p.shut?' x':''}">🕒 ${p.hours}</span>`:''}${p.addr?`<div class="ad">📌 ${p.addr}</div>`:''}${p.note?`<div class="meta">${p.note}</div>`:''}${p.nomap?'':`<a class="map" target="_blank" href="https://maps.google.com/?q=${encodeURIComponent(p.query||p.name+' 日本')}">📍 地圖</a>`}</div>`});
+    s.spots.forEach(p=>{h+=`<div class="spot${p.booked?' ok':p.walkin?' walk':p.onsite?' buy':p.book?' book':''}${p.shut?' shut':''}"><div class="nm">${p.name}${p.tag?`<span class="tag">${p.tag}</span>`:''}${p.booked?`<span class="tag g">${p.booked===1?'已預訂':'已訂 '+p.booked}</span>`:p.walkin?'<span class="tag o">不可預訂</span>':p.onsite?'<span class="tag p">現場購票</span>':p.book?'<span class="tag b">需預訂</span>':''}${p.shut?'<span class="tag b">當天公休</span>':''}${p.sub?`<span class="en">${p.sub}</span>`:''}</div>${p.hours?`<span class="hr${p.shut?' x':''}">🕒 ${p.hours}</span>`:''}${p.addr?`<div class="ad">📌 ${p.addr}</div>`:''}${p.note?`<div class="meta">${p.note}</div>`:''}${p.nomap?'':`<a class="map" target="_blank" href="https://maps.google.com/?q=${encodeURIComponent(p.query||p.name+' 日本')}">📍 地圖</a>`}</div>`});
     h+=`</div>`});
   h+=`</section>`;days.insertAdjacentHTML('beforeend',h);
 });
