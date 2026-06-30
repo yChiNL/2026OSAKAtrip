@@ -43,6 +43,8 @@ header .sub{font-size:13px;color:var(--soft);margin-top:8px;letter-spacing:.12em
 /* 頁籤 */
 nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-filter:blur(8px);border-bottom:2px solid var(--line)}
 .tabs{display:flex;gap:8px;overflow-x:auto;padding:11px 14px;max-width:680px;margin:0 auto;scrollbar-width:none}
+.tabs::after{content:"";flex:0 0 2px}
+@media(min-width:720px){.tabs{justify-content:center}}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;background:#fff;border:2px solid var(--line);border-radius:16px;padding:7px 14px;cursor:pointer;white-space:nowrap;text-align:center;line-height:1.15;font-family:"Baloo 2";font-weight:700;transition:.2s}
 .tab b{display:block;font-size:15px;color:var(--orange-d)}
@@ -112,7 +114,7 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-f
 <script>
 const tabs=document.getElementById('tabs'),days=document.getElementById('days');
 fetch('data.json').then(r=>r.json()).then(render).catch(e=>{days.innerHTML='<div class="empty">資料載入失敗，請用本機伺服器開啟（非 file://）</div>';console.error(e)});
-function render({days:D,rests,info}){
+function render({days:D}){
 D.forEach((day,i)=>{
   const b=document.createElement('button');b.className='tab'+(i==0?' on':'');b.innerHTML=`<b>DAY ${i+1}</b><span>${day.area}</span>`;b.onclick=()=>sel(i);tabs.append(b);
   let h=`<section class="day${i==0?' on':''}"><div class="dh ${day.color}"><div class="d">${day.date}</div><h2>${day.title}</h2><div class="area">${day.area}</div></div>`;
@@ -122,12 +124,6 @@ D.forEach((day,i)=>{
     h+=`</div>`});
   h+=`</section>`;days.insertAdjacentHTML('beforeend',h);
 });
-const tb=document.createElement('button');tb.className='tab';tb.innerHTML='<b>🍴</b><span>美食/資訊</span>';tb.onclick=()=>sel(D.length);tabs.append(tb);
-let r=`<section class="day"><div class="dh teal"><div class="d">EAT & INFO</div><h2>美食 · 資訊</h2><div class="area">餐廳 / 航班 / 飯店</div></div><div class="seg"><div class="seg-h"><span class="ic">🍴</span><span class="t">餐廳口袋名單</span><span class="ln"></span></div>`;
-rests.forEach(x=>r+=`<div class="rest"><div><span class="k">${x[0]}</span><div class="n">${x[1]}</div></div><div class="h">${x[2]}</div></div>`);
-r+=`</div><div class="seg"><div class="seg-h"><span class="ic">ℹ️</span><span class="t">重要資訊</span><span class="ln"></span></div>`;
-info.forEach(o=>r+=`<div class="info"><h3>${o.h}</h3>${o.p.map(t=>`<p>${t}</p>`).join('')}</div>`);
-r+=`</section>`;days.insertAdjacentHTML('beforeend',r);
 }
 function sel(i){document.querySelectorAll('.tab').forEach((t,n)=>t.classList.toggle('on',n==i));document.querySelectorAll('.day').forEach((d,n)=>d.classList.toggle('on',n==i));window.scrollTo({top:0,behavior:'smooth'})}
 </script>
