@@ -99,6 +99,70 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-f
 .info p{font-size:13.5px;color:var(--soft);margin:3px 0}
 .info b{color:var(--ink)}
 .foot{text-align:center;font-family:"Baloo 2";font-weight:700;color:var(--orange-d);font-size:16px;padding:30px 0 0}
+
+/* 記帳頁 */
+.rc-head{margin:22px 0 6px;background:linear-gradient(120deg,var(--purple),#7a4fe0);color:#fff;border-radius:22px;padding:18px 20px;box-shadow:var(--sh)}
+.rc-head .d{font-family:"Baloo 2";font-weight:700;font-size:13px;opacity:.9;letter-spacing:.08em}
+.rc-head h2{font-weight:800;font-size:26px;margin:1px 0 2px}
+.rc-head .area{font-size:12px;opacity:.92;letter-spacing:.1em;font-family:"Baloo 2";font-weight:600}
+.rc-total{background:linear-gradient(135deg,#fff,#f3edff);border:2px solid var(--purple);border-radius:20px;padding:16px 18px;margin:14px 0;box-shadow:var(--sh);display:flex;justify-content:space-between;align-items:center}
+.rc-total .lbl{font-weight:700;font-size:14px;color:var(--soft)}
+.rc-total .amt{font-family:"Baloo 2";font-weight:800;font-size:28px;color:var(--purple)}
+.rc-total .amt small{font-size:15px;font-weight:700;margin-right:2px}
+.rc-shoot{display:block;width:100%;border:none;background:linear-gradient(120deg,var(--orange),var(--orange-d));color:#fff;font-family:"M PLUS Rounded 1c";font-weight:800;font-size:17px;border-radius:20px;padding:16px;box-shadow:0 4px 0 rgba(0,0,0,.08),0 10px 22px rgba(255,138,61,.32);cursor:pointer;transition:.15s;margin-bottom:14px}
+.rc-shoot:active{transform:scale(.98) translateY(1px)}
+.rc-shoot .ic{font-size:20px;margin-right:6px}
+.rc-hint{font-size:12px;color:var(--soft);text-align:center;margin:-6px 0 16px;line-height:1.5}
+.rc-hint a{color:var(--purple);font-weight:700;cursor:pointer;text-decoration:underline}
+
+.rc-card{background:var(--card);border-radius:18px;padding:14px 15px;margin-bottom:12px;box-shadow:var(--sh);position:relative;animation:fade .35s ease}
+.rc-card .top{margin-bottom:8px;padding-right:32px}
+.rc-card .shop{font-weight:800;font-size:16px;line-height:1.3}
+.rc-card .shop .jp{display:block;font-size:12px;color:var(--soft);font-weight:600;margin-top:1px}
+.rc-card .when{display:block;font-family:"Baloo 2";font-weight:700;font-size:12px;color:var(--purple);margin-top:3px}
+.rc-card .items{border-top:1.5px dashed var(--line);padding-top:8px}
+.rc-item{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:4px 0;font-size:13.5px}
+.rc-item .nm{flex:1}
+.rc-item .nm .qty{display:inline-block;font-family:"Baloo 2";font-weight:800;font-size:11px;color:#fff;background:var(--orange);border-radius:10px;padding:1px 7px;margin-left:5px;vertical-align:middle}
+.rc-item .nm .jp{color:var(--soft);font-size:11.5px}
+.rc-item .px{font-family:"Baloo 2";font-weight:700;color:var(--ink);white-space:nowrap}
+.rc-item.disc{padding:2px 0 2px 12px}
+.rc-item.disc .nm{color:#e14;font-size:12px}
+.rc-item.disc .nm .jp{color:#f28;opacity:.8}
+.rc-item.disc .px{color:#e14;font-size:12.5px}
+.rc-warn{margin-top:8px;background:#fff7e0;border:1.5px solid #ffd873;border-radius:12px;padding:8px 11px;font-size:11.5px;color:#9a6b00;line-height:1.5}
+.rc-card .sum{display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--line);margin-top:8px;padding-top:8px}
+.rc-card .sum .l{font-size:12px;color:var(--soft);font-weight:700}
+.rc-card .sum .v{font-family:"Baloo 2";font-weight:800;font-size:18px;color:var(--purple)}
+.rc-card .sum .v small{font-size:12px;margin-right:1px}
+.rc-del{position:absolute;top:10px;right:10px;width:28px;height:28px;border:none;background:#ffe3e3;color:#e14;border-radius:50%;font-size:16px;font-weight:800;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;z-index:2}
+.rc-del:active{background:#ffc9c9}
+.rc-empty{font-size:13px;color:var(--soft);background:#fff;border:2px dashed var(--line);border-radius:18px;padding:26px 18px;text-align:center;line-height:1.6}
+.rc-empty .big{font-size:34px;display:block;margin-bottom:6px}
+
+/* 掃描中遮罩 */
+.rc-mask{position:fixed;inset:0;z-index:60;background:rgba(43,36,51,.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
+.rc-mask.on{display:flex}
+.rc-box{background:#fff;border-radius:24px;padding:26px 24px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.rc-box .spin{width:46px;height:46px;border:4px solid var(--line);border-top-color:var(--orange);border-radius:50%;margin:4px auto 14px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rc-box .msg{font-weight:700;font-size:15px}
+.rc-box .sub{font-size:12px;color:var(--soft);margin-top:5px}
+.rc-box .thumb{width:100%;max-height:150px;object-fit:contain;border-radius:14px;margin-bottom:14px;background:var(--bg)}
+.rc-box .err{color:#e14;font-weight:700;font-size:14px;margin-bottom:12px}
+.rc-box button{border:none;border-radius:14px;padding:11px 20px;font-family:"M PLUS Rounded 1c";font-weight:800;font-size:14px;cursor:pointer;margin:4px}
+.rc-box .ok{background:var(--purple);color:#fff}
+.rc-box .cancel{background:var(--line);color:var(--ink)}
+
+/* 設定 API 位址的小面板 */
+.rc-cfg{background:#fff;border:2px solid var(--line);border-radius:18px;padding:14px 15px;margin-bottom:14px}
+.rc-cfg label{font-size:12px;font-weight:700;color:var(--soft);display:block;margin-bottom:6px}
+.rc-cfg input{width:100%;border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--ink)}
+.rc-cfg input:focus{outline:none;border-color:var(--purple)}
+.rc-cfg .row{display:flex;gap:8px;margin-top:10px}
+.rc-cfg button{border:none;border-radius:12px;padding:10px 16px;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer}
+.rc-cfg .save{background:var(--purple);color:#fff;flex:1}
+.rc-cfg .close{background:var(--line);color:var(--ink)}
 </style>
 </head>
 <body>
@@ -111,10 +175,25 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-f
 <nav><div class="tabs" id="tabs"></div></nav>
 <div class="wrap" id="days"></div>
 <div class="foot">いってきます！一路順風 ✈️</div>
+
+<!-- 選照片用的隱藏 input（不設 capture，讓手機彈出「拍照 / 從相簿選」選單） -->
+<input type="file" id="rcFile" accept="image/*" style="display:none">
+
+<!-- 掃描中 / 錯誤 遮罩 -->
+<div class="rc-mask" id="rcMask">
+  <div class="rc-box" id="rcBox"></div>
+</div>
+
 <script>
 const tabs=document.getElementById('tabs'),days=document.getElementById('days');
+const LS_KEY='kansai_receipts', LS_API='kansai_gemini_key';
+const GEMINI_MODEL='gemini-3.5-flash'; // 視覺模型；若免費層不可用可改 gemini-2.5-flash
+let TAB_COUNT=0; // 行程天數，記帳頁 index = TAB_COUNT
+
 fetch('data.json').then(r=>r.json()).then(render).catch(e=>{days.innerHTML='<div class="empty">資料載入失敗，請用本機伺服器開啟（非 file://）</div>';console.error(e)});
+
 function render({days:D}){
+TAB_COUNT=D.length;
 D.forEach((day,i)=>{
   const b=document.createElement('button');b.className='tab'+(i==0?' on':'');b.innerHTML=`<b>DAY ${i+1}</b><span>${day.area}</span>`;b.onclick=()=>sel(i);tabs.append(b);
   let h=`<section class="day${i==0?' on':''}"><div class="dh ${day.color}"><div class="d">${day.date}</div><h2>${day.title}</h2><div class="area">${day.area}</div></div>`;
@@ -124,8 +203,261 @@ D.forEach((day,i)=>{
     h+=`</div>`});
   h+=`</section>`;days.insertAdjacentHTML('beforeend',h);
 });
+// 記帳頁籤
+const rb=document.createElement('button');rb.className='tab';rb.innerHTML=`<b>🧾 記帳</b><span>RECEIPTS</span>`;rb.onclick=()=>sel(TAB_COUNT);tabs.append(rb);
+days.insertAdjacentHTML('beforeend',`<section class="day" id="rcPage">
+  <div class="rc-head"><div class="d">RECEIPT · 收據記帳</div><h2>買了什麼 🛍️</h2><div class="area">拍收據 · 自動翻譯 · 記錄花費</div></div>
+  <div id="rcCfgSlot"></div>
+  <button class="rc-shoot" id="rcShoot"><span class="ic">📸</span>拍收據 / 選照片</button>
+  <div class="rc-hint">拍照或從相簿選一張日文收據，AI 自動辨識商品與金額並翻成中文。<br><a id="rcCfgLink">⚙️ 設定 Gemini API 金鑰</a></div>
+  <div class="rc-total"><span class="lbl">本次旅行共花費</span><span class="amt" id="rcTotal"><small>¥</small>0</span></div>
+  <div id="rcList"></div>
+</section>`);
+document.getElementById('rcShoot').onclick=shoot;
+document.getElementById('rcCfgLink').onclick=toggleCfg;
+document.getElementById('rcFile').onchange=onPick;
+renderReceipts();
 }
-function sel(i){document.querySelectorAll('.tab').forEach((t,n)=>t.classList.toggle('on',n==i));document.querySelectorAll('.day').forEach((d,n)=>d.classList.toggle('on',n==i));window.scrollTo({top:0,behavior:'smooth'})}
+
+function sel(i){
+  document.querySelectorAll('.tab').forEach((t,n)=>t.classList.toggle('on',n==i));
+  document.querySelectorAll('.day').forEach((d,n)=>d.classList.toggle('on',n==i));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- 記帳：資料存取 ---------- */
+function getReceipts(){try{return JSON.parse(localStorage.getItem(LS_KEY))||[]}catch(e){return[]}}
+function saveReceipts(a){localStorage.setItem(LS_KEY,JSON.stringify(a))}
+function getKey(){return localStorage.getItem(LS_API)||''}
+
+function renderReceipts(){
+  const list=document.getElementById('rcList'),tot=document.getElementById('rcTotal');
+  const data=getReceipts();
+  let sum=0;
+  data.forEach(r=>sum+=Number(r.total)||0);
+  tot.innerHTML=`<small>¥</small>${sum.toLocaleString()}`;
+  if(!data.length){list.innerHTML=`<div class="rc-empty"><span class="big">🧾</span>還沒有收據<br>按上面「拍收據 / 選照片」開始記錄吧</div>`;return}
+  list.innerHTML=data.map((r,i)=>{
+    const items=(r.items||[]).map(it=>{
+      const isD=it.type==='discount'||(it.price!=null&&it.price<0);
+      const p=it.price;
+      const priceTxt=p!=null?(p<0?'-¥'+Math.abs(p).toLocaleString():'¥'+Number(p).toLocaleString()):'';
+      return `<div class="rc-item${isD?' disc':''}"><span class="nm">${it.name_zh||it.name||'—'}${!isD&&it.qty>1?`<span class="qty">×${it.qty}</span>`:''}${it.name_jp&&it.name_jp!==it.name_zh?`<span class="jp"> ${it.name_jp}</span>`:''}</span><span class="px">${priceTxt}</span></div>`;
+    }).join('');
+    return `<div class="rc-card"><button class="rc-del" onclick="delReceipt(${i})">×</button>
+      <div class="top"><div class="shop">${r.shop_zh||r.shop||'商店'}${r.shop_jp&&r.shop_jp!==r.shop_zh?`<span class="jp">${r.shop_jp}</span>`:''}${r.when?`<span class="when">消費日期：${r.when}</span>`:''}</div></div>
+      <div class="items">${items||'<div class="rc-item"><span class="nm" style="color:var(--soft)">（無明細）</span></div>'}</div>
+      <div class="sum"><span class="l">小計</span><span class="v"><small>¥</small>${(Number(r.total)||0).toLocaleString()}</span></div>
+      ${r.mismatch?`<div class="rc-warn">⚠️ 明細加總 ¥${(Number(r.sum)||0).toLocaleString()} 與收據總額不符，可能有漏抓，請核對</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function delReceipt(i){
+  const data=getReceipts();
+  if(!confirm('刪除這筆收據？'))return;
+  data.splice(i,1);saveReceipts(data);renderReceipts();
+}
+
+/* ---------- 記帳：拍照 → 壓縮 → 送 Gemini ---------- */
+function shoot(){
+  if(!getKey()){toggleCfg(true);alert('請先設定 Gemini API 金鑰');return}
+  document.getElementById('rcFile').value='';
+  document.getElementById('rcFile').click();
+}
+
+function onPick(e){
+  const file=e.target.files&&e.target.files[0];
+  if(!file)return;
+  compress(file).then(blob=>analyze(blob)).catch(err=>showErr('圖片處理失敗：'+err.message));
+}
+
+// 壓縮到最長邊 1600px、JPEG 0.8，減少上傳體積
+function compress(file){
+  return new Promise((res,rej)=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{
+      URL.revokeObjectURL(url);
+      let{width:w,height:h}=img;const max=1600;
+      if(w>max||h>max){const s=max/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s)}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      c.toBlob(b=>b?res(b):rej(new Error('canvas')), 'image/jpeg', 0.8);
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('無法讀取圖片'))};
+    img.src=url;
+  });
+}
+
+// blob → base64（去掉 data:...;base64, 前綴）
+function toBase64(blob){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(String(r.result).split(',')[1]);
+    r.onerror=()=>rej(new Error('讀取失敗'));
+    r.readAsDataURL(blob);
+  });
+}
+
+// 送 Gemini 直接辨識 + 翻譯 + 提取金額（純前端，金鑰存手機）
+async function analyze(blob){
+  showScan(blob);
+  try{
+    const b64=await toBase64(blob);
+    const url=`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(getKey())}`;
+    const prompt='這是一張日文購物收據的照片。請逐行仔細辨識並回傳 JSON：'
+      +'shop_jp=商店日文原名；shop_zh=商店名的繁體中文；'
+      +'date=消費日期，格式必須為 yyyy/mm/dd（例如 2026/07/15）；若收據上只有月日沒有年份，年份用 2026；看不到日期就留空；'
+      +'items=逐行明細陣列，包含商品行與折扣行兩種：'
+      +'商品行 → type="item"、name_jp(日文原名)、name_zh(繁中翻譯)、qty(數量整數，看不出當1)、price(該項實付小計數字)；'
+      +'折扣行（如「クーポン割引」「割引」「値引」等優惠）→ type="discount"、name_jp(原文如「クーポン割引 5%」)、name_zh(翻成「優惠券折扣」等)、qty省略、price要用「負數」(例如折抵64就填 -64)；'
+      +'每個折扣行請緊接在它所折扣的商品之後，順序與收據一致，不要漏掉任何一行折扣；'
+      // ④ @單價×數量：price 取右側小計，不是單價
+      +'注意：若某商品下方有「@單價 × 數量個」這類說明（例如 @¥313 × 4個），price 要填該商品行右側的「小計金額」（如 1252），不是單價 313；qty 則填那個數量（如 4）；'
+      // ③ 匯總行不當商品
+      +'重要：收據底部的「小計」「消費税」「税込」「合計」「総計」「お預り」「お釣り」「現金」「クレジット」等『匯總或付款』行，都不是商品，絕對不要放進 items；'
+      // ② 數字防模糊
+      +'金額一律用整數日圓數字，忽略千分位逗號與貨幣符號（¥1,252 就填 1252）；收據是熱感紙可能模糊，數字要看清楚；'
+      +'total=收據上標示的「合計/総計」實付總金額(數字，已含所有折扣與稅)。'
+      // ① 自我核對
+      +'產出前請自我核對：所有 item 的 price 加上所有 discount 的負數，應該等於 total；若對不上，請重新檢查是否漏抓商品或折扣行、或金額看錯。'
+      +'翻譯用台灣習慣用語，保留品牌名。只根據收據實際內容，看不清的欄位就留空或省略。';
+
+    const body={
+      contents:[{parts:[
+        {text:prompt},
+        {inline_data:{mime_type:'image/jpeg',data:b64}}
+      ]}],
+      generationConfig:{
+        temperature:0,
+        responseMimeType:'application/json',
+        responseSchema:{
+          type:'OBJECT',
+          properties:{
+            shop_jp:{type:'STRING'},
+            shop_zh:{type:'STRING'},
+            date:{type:'STRING'},
+            total:{type:'NUMBER'},
+            items:{type:'ARRAY',items:{type:'OBJECT',properties:{
+              type:{type:'STRING'},
+              name_jp:{type:'STRING'},
+              name_zh:{type:'STRING'},
+              qty:{type:'NUMBER'},
+              price:{type:'NUMBER'}
+            }}}
+          }
+        }
+      }
+    };
+
+    const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok){
+      const t=await r.text();
+      throw new Error(geminiErr(r.status,t));
+    }
+    const data=await r.json();
+    const txt=data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if(!txt)throw new Error('AI 沒有回傳結果，請換一張更清晰的照片');
+    const rec=normalize(JSON.parse(txt));
+    const arr=getReceipts();arr.unshift(rec);saveReceipts(arr);
+    hideMask();renderReceipts();
+  }catch(err){
+    showErr(err.message);
+  }
+}
+
+// 把常見錯誤碼翻成看得懂的提示，並帶出 Google 的真實訊息
+function geminiErr(status,text){
+  // 先試著解析 Google 回傳的錯誤 JSON，取出真正的原因
+  let real='';
+  try{ real=JSON.parse(text)?.error?.message||''; }catch(e){}
+  const detail=real?('\n\n詳細：'+real):('\n\n'+text.slice(0,200));
+  if(status===400&&/API_KEY_INVALID|API key not valid/i.test(text))return '金鑰無效，請檢查貼上的 Gemini 金鑰是否完整'+detail;
+  if(status===403)return '金鑰沒有權限（可能沒開通 Generative Language API，或金鑰有限制）'+detail;
+  if(status===429)return '已達免費額度上限（每分鐘/每天次數）'+detail;
+  if(status===503)return 'Gemini 服務暫時忙碌，請稍後再試'+detail;
+  return `辨識失敗（HTTP ${status}）`+detail;
+}
+
+// 收斂 Gemini 回傳，補上前端要的 when、缺失 total 時用明細加總
+function normalize(d){
+  d=d||{};
+  const items=(d.items||[]).map(it=>{
+    const isDiscount=(it.type==='discount')||num(it.price)<0;
+    return {
+      type:isDiscount?'discount':'item',
+      name_zh:it.name_zh||it.name_jp||'',
+      name_jp:it.name_jp||'',
+      qty:isDiscount?1:Math.max(1,Math.round(num(it.qty)||1)),
+      price:num(it.price)
+    };
+  });
+  const sum=items.reduce((s,it)=>s+(it.price||0),0); // 明細加總（商品-折扣）
+  let total=num(d.total);
+  let mismatch=false;
+  if(total==null){
+    total=sum; // AI 沒給總額，用明細加總
+  }else if(sum>0&&Math.abs(sum-total)>Math.max(5,total*0.02)){
+    // AI 給了總額，但和明細加總差超過 2%（或 5 元），可能有漏抓
+    mismatch=true;
+  }
+  return{
+    shop_zh:d.shop_zh||d.shop_jp||'',
+    shop_jp:d.shop_jp||'',
+    when:fmtDate(d.date),
+    total, sum, mismatch, items
+  };
+}
+function num(v){if(v==null)return null;const n=Number(String(v).replace(/[^\d.\-]/g,''));return isNaN(n)?null:n}
+// 把各種日期格式規整為 yyyy/mm/dd；解析不出來就用今天
+function fmtDate(s){
+  const t=new Date();
+  const pad=n=>String(n).padStart(2,'0');
+  const today=()=>`${t.getFullYear()}/${pad(t.getMonth()+1)}/${pad(t.getDate())}`;
+  if(!s)return today();
+  const nums=String(s).match(/\d+/g);
+  if(!nums)return today();
+  let y,m,d;
+  if(nums.length>=3){[y,m,d]=nums}          // 有年月日
+  else if(nums.length===2){y=t.getFullYear();[m,d]=nums} // 只有月日 → 補今年
+  else return today();
+  y=Number(y); if(y<100)y+=2000;             // 兩位數年份補成 20xx
+  m=Number(m); d=Number(d);
+  if(m<1||m>12||d<1||d>31)return today();
+  return `${y}/${pad(m)}/${pad(d)}`;
+}
+
+/* ---------- 記帳：遮罩 UI ---------- */
+const mask=document.getElementById('rcMask'),box=document.getElementById('rcBox');
+function showScan(blob){
+  const src=URL.createObjectURL(blob);
+  box.innerHTML=`<img class="thumb" src="${src}"><div class="spin"></div><div class="msg">辨識中…</div><div class="sub">正在讀取收據並翻譯</div>`;
+  mask.classList.add('on');
+}
+function showErr(msg){
+  box.innerHTML=`<div class="err">⚠️ 辨識失敗</div><div class="sub" style="margin-bottom:14px">${msg}</div><button class="ok" onclick="hideMask()">知道了</button>`;
+  mask.classList.add('on');
+}
+function hideMask(){mask.classList.remove('on');box.innerHTML=''}
+
+/* ---------- 記帳：設定 Gemini 金鑰 ---------- */
+function toggleCfg(force){
+  const slot=document.getElementById('rcCfgSlot');
+  if(slot.innerHTML&&force!==true){slot.innerHTML='';return}
+  const cur=getKey();
+  slot.innerHTML=`<div class="rc-cfg">
+    <label>Gemini API 金鑰（存在本機，不會上傳）</label>
+    <input id="rcApiInput" type="password" placeholder="貼上 AIza... 開頭的金鑰" value="${cur}">
+    <div class="row"><button class="save" onclick="saveKey()">儲存</button><button class="close" onclick="toggleCfg()">關閉</button></div>
+    <div style="font-size:11px;color:var(--soft);margin-top:8px;line-height:1.5">還沒有金鑰？到 <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--purple);font-weight:700">Google AI Studio</a> 免費申請。金鑰只存在這支手機。</div>
+  </div>`;
+}
+function saveKey(){
+  const v=document.getElementById('rcApiInput').value.trim();
+  localStorage.setItem(LS_API,v);
+  document.getElementById('rcCfgSlot').innerHTML='';
+  alert(v?'已儲存 ✅':'已清空');
+}
 </script>
 </body>
 </html>
