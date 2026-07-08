@@ -1,7 +1,7 @@
 {
   "days": [
     {"date":"DAY 1 · 07/14 二","title":"抵達大阪","area":"OSAKA","color":"","slots":[
-      {"icon":"✈️","title":"抵達・住宿","spots":[{"name":"CX564 香港→關西","sub":"11:05–14:50","note":"托運 23KG · 隨身 7KG","tag":"航班","nomap":1},{"name":"飯店 Check-in","sub":"蒙特利","addr":"大阪蒙特利格拉斯梅爾酒店","note":"16:00 才能入住","query":"Hotel Monterey Grasmere Osaka"}]},
+      {"icon":"✈️","title":"抵達・住宿","spots":[{"name":"CX564 台北→關西","sub":"11:05–14:50","note":"托運 23KG · 隨身 7KG","tag":"航班","nomap":1},{"name":"飯店 Check-in","sub":"蒙特利","addr":"大阪蒙特利格拉斯梅爾酒店","note":"16:00 才能入住","query":"Hotel Monterey Grasmere Osaka"}]},
       {"icon":"🍴","title":"晚餐","spots":[{"name":"和和鍋 道頓堀店","hours":"12:00–24:00 末入23:30","addr":"中央区道頓堀1-6-15 ドウトン大樓8F","query":"和和鍋 道頓堀店","booked":"18:30","note":"訂金 $581"}]},
       {"icon":"🌙","title":"晚上","spots":[
         {"name":"道頓堀","hours":"全天 · 店家多至深夜","addr":"中央区道頓堀1丁目 戎橋一帶","query":"道頓堀 戎橋"},
@@ -53,7 +53,7 @@
       {"icon":"🍴","title":"晚餐","spots":[{"name":"Akari Soba","hours":"12:00–24:00","addr":"中央区道頓堀1-1-9","query":"あかり 蕎麦 道頓堀","walkin":1,"note":"現場排隊"}]}]},
     {"date":"DAY 7 · 07/20 一","title":"歸途","area":"OSAKA","color":"","slots":[
       {"icon":"🛍️","title":"上午","spots":[{"name":"臨空城 Outlet","hours":"10:00–20:00","addr":"泉佐野市りんくう往来南3-28","query":"りんくうプレミアムアウトレット"}]},
-      {"icon":"✈️","title":"午後","spots":[{"name":"CX565 關西→香港","sub":"16:15–18:15","tag":"航班"}]}]}
+      {"icon":"✈️","title":"午後","spots":[{"name":"CX565 關西→台北","sub":"16:15–18:15","tag":"航班"}]}]}
   ],
   "info": [
     {"h":"✈️ 航班","p":["<b>去程</b> CX564　11:05–14:50","<b>回程</b> CX565　16:15–18:15","托運 23KG · 隨身 7KG"]},
