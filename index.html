@@ -176,8 +176,8 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,247,238,.94);backdrop-f
 <div class="wrap" id="days"></div>
 <div class="foot">いってきます！一路順風 ✈️</div>
 
-<!-- 選照片用的隱藏 input（不設 capture，讓手機彈出「拍照 / 從相簿選」選單） -->
-<input type="file" id="rcFile" accept="image/*" style="display:none">
+<!-- 選照片用的隱藏 input（不設 capture，讓手機彈出「拍照 / 從相簿選」選單；multiple 可一次選多張批次匯入） -->
+<input type="file" id="rcFile" accept="image/*" multiple style="display:none">
 
 <!-- 掃描中 / 錯誤 遮罩 -->
 <div class="rc-mask" id="rcMask">
@@ -209,7 +209,7 @@ days.insertAdjacentHTML('beforeend',`<section class="day" id="rcPage">
   <div class="rc-head"><div class="d">RECEIPT · 收據記帳</div><h2>買了什麼 🛍️</h2><div class="area">拍收據 · 自動翻譯 · 記錄花費</div></div>
   <div id="rcCfgSlot"></div>
   <button class="rc-shoot" id="rcShoot"><span class="ic">📸</span>拍收據 / 選照片</button>
-  <div class="rc-hint">拍照或從相簿選一張日文收據，AI 自動辨識商品與金額並翻成中文。<br><a id="rcCfgLink">⚙️ 設定 Gemini API 金鑰</a></div>
+  <div class="rc-hint">拍照或從相簿選收據（可一次選多張批次匯入），AI 自動辨識商品與金額並翻成中文。<br><a id="rcCfgLink">⚙️ 設定 Gemini API 金鑰</a></div>
   <div class="rc-total"><span class="lbl">本次旅行共花費</span><span class="amt" id="rcTotal"><small>¥</small>0</span></div>
   <div id="rcList"></div>
 </section>`);
@@ -266,10 +266,46 @@ function shoot(){
   document.getElementById('rcFile').click();
 }
 
-function onPick(e){
-  const file=e.target.files&&e.target.files[0];
-  if(!file)return;
-  compress(file).then(blob=>analyze(blob)).catch(err=>showErr('圖片處理失敗：'+err.message));
+async function onPick(e){
+  const files=Array.from(e.target.files||[]);
+  if(!files.length)return;
+  // 單張沿用原本體驗；多張走批次流程
+  if(files.length===1){
+    compress(files[0]).then(blob=>analyze(blob)).catch(err=>showErr('圖片處理失敗：'+err.message));
+    return;
+  }
+  const total=files.length,fails=[];
+  const GAP=13000; // 免費層每分鐘 5 次 → 每張間隔約 13 秒才不會爆配額
+  for(let i=0;i<total;i++){
+    const f=files[i];
+    let blob;
+    try{ blob=await compress(f); }
+    catch(err){ fails.push((f.name||`第 ${i+1} 張`)+'：圖片處理失敗'); continue; }
+    // 每張最多重試 4 次（遇 429/503 依建議秒數等待後重送）
+    let ok=false,lastErr='';
+    for(let attempt=0;attempt<4&&!ok;attempt++){
+      try{
+        showScan(blob,{idx:i+1,total});
+        const rec=await recognize(blob);
+        const arr=getReceipts();arr.unshift(rec);saveReceipts(arr);
+        renderReceipts();
+        ok=true;
+      }catch(err){
+        lastErr=err.message;
+        if(err.retryAfter){
+          await countdownWait(blob,{idx:i+1,total},err.retryAfter);
+        }else break; // 非暫時性錯誤（金鑰無效等），不重試
+      }
+    }
+    if(!ok)fails.push((f.name||`第 ${i+1} 張`)+'：'+lastErr);
+    // 成功後節流，最後一張不用等
+    if(ok&&i<total-1)await sleep(GAP);
+  }
+  if(fails.length){
+    showErr(`批次匯入完成，成功 ${total-fails.length}/${total} 張。<br><br>失敗：<br>${fails.join('<br>')}`);
+  }else{
+    hideMask();
+  }
 }
 
 // 壓縮到最長邊 1600px、JPEG 0.8，減少上傳體積
@@ -303,9 +339,20 @@ function toBase64(blob){
 async function analyze(blob){
   showScan(blob);
   try{
+    const rec=await recognize(blob);
+    const arr=getReceipts();arr.unshift(rec);saveReceipts(arr);
+    hideMask();renderReceipts();
+  }catch(err){
+    showErr(err.message);
+  }
+}
+
+// 只負責「一張圖 → 辨識結果」，不碰 UI 與儲存，供單張與批次共用
+async function recognize(blob){
     const b64=await toBase64(blob);
     const url=`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(getKey())}`;
     const prompt='這是一張日文購物收據的照片。請逐行仔細辨識並回傳 JSON：'
+      +'注意：收據上可能有人工手寫的字（原子筆、麥克筆等非機器列印的塗鴉、簽名、備註），請一律忽略不看，只辨識機器列印出來的收據內容；'
       +'shop_jp=商店日文原名；shop_zh=商店名的繁體中文；'
       +'date=消費日期，格式必須為 yyyy/mm/dd（例如 2026/07/15）；若收據上只有月日沒有年份，年份用 2026；看不到日期就留空；'
       +'items=逐行明細陣列，包含商品行與折扣行兩種：'
@@ -353,17 +400,15 @@ async function analyze(blob){
     const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok){
       const t=await r.text();
-      throw new Error(geminiErr(r.status,t));
+      const err=new Error(geminiErr(r.status,t));
+      if(r.status===429)err.retryAfter=parseRetryDelay(t)||60; // 免費層每分鐘配額，預設等 60 秒
+      if(r.status===503)err.retryAfter=15; // 模型過載，短暫等待後重試
+      throw err;
     }
     const data=await r.json();
     const txt=data.candidates?.[0]?.content?.parts?.[0]?.text;
     if(!txt)throw new Error('AI 沒有回傳結果，請換一張更清晰的照片');
-    const rec=normalize(JSON.parse(txt));
-    const arr=getReceipts();arr.unshift(rec);saveReceipts(arr);
-    hideMask();renderReceipts();
-  }catch(err){
-    showErr(err.message);
-  }
+    return normalize(JSON.parse(txt));
 }
 
 // 把常見錯誤碼翻成看得懂的提示，並帶出 Google 的真實訊息
@@ -377,6 +422,13 @@ function geminiErr(status,text){
   if(status===429)return '已達免費額度上限（每分鐘/每天次數）'+detail;
   if(status===503)return 'Gemini 服務暫時忙碌，請稍後再試'+detail;
   return `辨識失敗（HTTP ${status}）`+detail;
+}
+
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+// 從 Google 429 錯誤裡讀「建議等待秒數」(retryDelay: "20s")，讀不到就給預設值
+function parseRetryDelay(text){
+  const m=/"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"/.exec(text||'');
+  return m?Math.ceil(parseFloat(m[1])):0;
 }
 
 // 收斂 Gemini 回傳，補上前端要的 when、缺失 total 時用明細加總
@@ -429,9 +481,11 @@ function fmtDate(s){
 
 /* ---------- 記帳：遮罩 UI ---------- */
 const mask=document.getElementById('rcMask'),box=document.getElementById('rcBox');
-function showScan(blob){
+function showScan(blob,prog){
   const src=URL.createObjectURL(blob);
-  box.innerHTML=`<img class="thumb" src="${src}"><div class="spin"></div><div class="msg">辨識中…</div><div class="sub">正在讀取收據並翻譯</div>`;
+  const badge=prog?`<div class="msg">辨識中… (${prog.idx}/${prog.total})</div><div class="sub">批次匯入中，正在讀取第 ${prog.idx} 張收據</div>`
+                  :`<div class="msg">辨識中…</div><div class="sub">正在讀取收據並翻譯</div>`;
+  box.innerHTML=`<img class="thumb" src="${src}"><div class="spin"></div>${badge}`;
   mask.classList.add('on');
 }
 function showErr(msg){
@@ -439,6 +493,18 @@ function showErr(msg){
   mask.classList.add('on');
 }
 function hideMask(){mask.classList.remove('on');box.innerHTML=''}
+
+// 等待期間在遮罩顯示倒數（遇到 429/503 配額/過載時用）
+async function countdownWait(blob,prog,secs){
+  const src=URL.createObjectURL(blob);
+  for(let s=secs;s>0;s--){
+    box.innerHTML=`<img class="thumb" src="${src}"><div class="spin"></div>`
+      +`<div class="msg">配額限制，等待中… (${prog.idx}/${prog.total})</div>`
+      +`<div class="sub">Gemini 免費層有速率限制，${s} 秒後自動重試這一張</div>`;
+    mask.classList.add('on');
+    await sleep(1000);
+  }
+}
 
 /* ---------- 記帳：設定 Gemini 金鑰 ---------- */
 function toggleCfg(force){
